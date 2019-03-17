@@ -20,7 +20,7 @@ flags = tf.app.flags
 flags.DEFINE_integer("max_steps", 32000, "Maximum of iteration [450000]")
 flags.DEFINE_integer("pretraining_steps", 32000, "Number of steps to run pretraining")
 flags.DEFINE_float("learning_rate", 0.005, "Learning rate of adam optimizer [0.001]")
-flags.DEFINE_string("model_path", "", "Path to trained model")
+#flags.DEFINE_string("model_path", "", "Path to trained model")
 flags.DEFINE_string("dataset", "el-figer", "The name of dataset [ptb]")
 flags.DEFINE_string("checkpoint_dir", "/tmp",
                     "Directory name to save the checkpoints [checkpoints]")
@@ -54,7 +54,9 @@ flags.DEFINE_string("optimizer", 'adam', "Optimizer to use. adagrad, adadelta or
 
 flags.DEFINE_string("config", 'configs/config.ini',
                     "VocabConfig Filepath")
-flags.DEFINE_string("test_out_fp", "", "Write Test Prediction Data")
+
+flags.DEFINE_string("model_path", '/Users/isabelleaugenstein/workspace/neural-el/neural-el_resources', "Path to neural-el_resources")
+flags.DEFINE_string("test_file", '/Users/isabelleaugenstein/workspace/neural-el/neural-el_resources/sampletest.conllu', "Test inference file")
 
 FLAGS = flags.FLAGS
 
@@ -81,7 +83,7 @@ def main(_):
 
         reader = InferenceReader(config=config,
                                  vocabloader=vocabloader,
-                                 test_mens_file=config.test_file,
+                                 test_mens_file=FLAGS.test_file,
                                  num_cands=FLAGS.num_cand_entities,
                                  batch_size=FLAGS.batch_size,
                                  strict_context=FLAGS.strict_context,

@@ -47,18 +47,6 @@ class InferenceReader(object):
             config.cohstringG9_vocab_pkl)
         self.num_cohstr = len(self.idx2cohG9)
 
-        # Crosswikis
-        print("Loading Crosswikis dict. (takes ~2 mins to load)")
-        self.crosswikis = utils.load(config.crosswikis_pruned_pkl)
-        print("Crosswikis loaded. Size: {}".format(len(self.crosswikis)))
-
-        if self.pretrain_wordembed:
-            stime = time.time()
-            self.word2vec = vocabloader.loadGloveVectors()
-            print("[#] Glove Vectors loaded!")
-            ttime = (time.time() - stime)/float(60)
-
-
         print("[#] Test Mentions File : {}".format(test_mens_file))
 
         print("[#] Loading test file and preprocessing ... ")
@@ -79,6 +67,17 @@ class InferenceReader(object):
         self.num_cands = num_cands
         self.strict_context = strict_context
 
+        # Crosswikis
+        print("Loading Crosswikis dict. (takes ~2 mins to load)")
+        self.crosswikis = utils.load(config.crosswikis_pruned_pkl)
+        print("Crosswikis loaded. Size: {}".format(len(self.crosswikis)))
+
+        if self.pretrain_wordembed:
+            stime = time.time()
+            self.word2vec = vocabloader.loadGloveVectors()
+            print("[#] Glove Vectors loaded!")
+            ttime = (time.time() - stime)/float(60)
+
         print("\n[#]LOADING COMPLETE")
   #*******************      END __init__      *********************************
 
@@ -93,10 +92,18 @@ class InferenceReader(object):
         self.epochs = 0
 
     def processTestDoc(self, test_mens_file):
-        with open(test_mens_file, 'r') as f:
-            lines = f.read().strip().split("\n")
-        assert len(lines) == 1, "Only support inference for single doc"
-        self.doctext = lines[0].strip()
+
+        # reading text file
+        #with open(test_mens_file, 'r', encoding='utf-8') as f:
+        #    lines = f.read().strip().split("\n")
+        #assert len(lines) == 1, "Only support inference for single doc"
+        #self.doctext = lines[0].strip()
+
+        # reading conllu file
+        print("reading conllu file")
+        with open(test_mens_file, 'r', encoding='utf-8') as f:
+            self.doctext = " ".join([line.split("    ")[1] for line in f if len(line) > 2])
+
         self.ccgdoc = self.pipeline.doc(self.doctext)
         # List of tokens
         self.doc_tokens = self.ccgdoc.get_tokens

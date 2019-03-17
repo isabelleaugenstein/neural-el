@@ -38,7 +38,7 @@ class Config(object):
         self.glove_pkl = d['glove_pkl']
         self.glove_word_vocab_pkl = d['glove_word_vocab_pkl']
 
-        self.test_file = d['test_file']
+        # self.test_file = d['test_file']
 
         if verbose:
             pp.pprint(d)
