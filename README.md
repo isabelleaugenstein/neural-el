@@ -18,13 +18,16 @@ In this work we present a neural, modular entity linking system that learns a un
 
 ### How to run inference
 1. Clone the [code repository](https://github.com/nitishgupta/neural-el/)
-1. Download the [resources folder](https://drive.google.com/open?id=0Bz-t37BfgoTuSEtXOTI1SEF3VnM).
-2. In `config/config.ini` set the correct path to the resources folder you just downloaded
-3. Run using:
+2. Download the [resources folder](https://drive.google.com/open?id=0Bz-t37BfgoTuSEtXOTI1SEF3VnM).
+3. In `config/config.ini` set the correct path to the resources folder you just downloaded
+4. Run using:
 ```
-python3 neuralel.py --config=configs/config.ini --model_path=PATH_TO_MODEL_IN_RESOURCES --mode=inference
+python3 neuralel.py --config=configs/config.ini --model_path=PATH_TO_MODEL_IN_RESOURCES --mode=inference --test_file=PATH_TO_CONLLU_TEST_FILE
 ```
-The file `sampletest.txt` in the resources folder contains the text to be entity-linked. Currently we only support linking for a single document. Make sure the text in `sampletest.txt` is a single doc in a single line.
+
+`PATH_TO_MODEL_IN_RESOURCES` should be set to e.g. `neural-el/neural-el_resources`.
+
+The file `sampletest.conllu` in the resources folder contains the text to be entity-linked. Currently we only support linking for a single document at a time.
 
 ### Installing cogcomp-nlpy
 [CogComp-NLPy](https://github.com/CogComp/cogcomp-nlpy) is needed to detect named-entity mentions using NER. To install:
